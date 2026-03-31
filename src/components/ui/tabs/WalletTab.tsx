@@ -12,7 +12,6 @@ import { SendEth } from "../wallet/SendEth";
 import { SignSolanaMessage } from "../wallet/SignSolanaMessage";
 import { SendSolana } from "../wallet/SendSolana";
 import { USE_WALLET, APP_NAME } from "../../../lib/constants";
-import { useMiniApp } from "@neynar/react";
 
 /**
  * WalletTab component manages wallet-related UI for both EVM and Solana chains.
@@ -61,10 +60,7 @@ function WalletStatus({ address, chainId }: WalletStatusProps) {
 
 interface ConnectionControlsProps {
   isConnected: boolean;
-  context: {
-    user?: { fid?: number };
-    client?: unknown;
-  } | null;
+  hasEmbeddedClient: boolean;
   connect: (args: { connector: Connector }) => void;
   connectors: readonly Connector[];
   disconnect: () => void;
@@ -75,7 +71,7 @@ interface ConnectionControlsProps {
  */
 function ConnectionControls({
   isConnected,
-  context,
+  hasEmbeddedClient,
   connect,
   connectors,
   disconnect,
@@ -87,7 +83,7 @@ function ConnectionControls({
       </Button>
     );
   }
-  if (context) {
+  if (hasEmbeddedClient) {
     return (
       <div className="space-y-2 w-full">
         <Button onClick={() => connect({ connector: connectors[0] })} className="w-full">
@@ -123,7 +119,6 @@ export function WalletTab() {
   const [evmContractTransactionHash, setEvmContractTransactionHash] = useState<string | null>(null);
   
   // --- Hooks ---
-  const { context } = useMiniApp();
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const solanaWallet = useSolanaWallet();
@@ -169,18 +164,16 @@ export function WalletTab() {
    */
   useEffect(() => {
     // Check if we're in a Farcaster client environment
-    const isInFarcasterClient = typeof window !== 'undefined' && 
-      (window.location.href.includes('warpcast.com') || 
+    const isInEmbeddedClient = typeof window !== 'undefined' &&
+      (window.location.href.includes('warpcast.com') ||
        window.location.href.includes('farcaster') ||
-       window.ethereum?.isFarcaster ||
-       context?.client);
+       window.ethereum?.isFarcaster);
     
-    if (context?.user?.fid && !isConnected && connectors.length > 0 && isInFarcasterClient) {
+    if (!isConnected && connectors.length > 0 && isInEmbeddedClient) {
       console.log("Attempting auto-connection with Farcaster context...");
-      console.log("- User FID:", context.user.fid);
       console.log("- Available connectors:", connectors.map((c, i) => `${i}: ${c.name}`));
       console.log("- Using connector:", connectors[0].name);
-      console.log("- In Farcaster client:", isInFarcasterClient);
+      console.log("- In Farcaster client:", isInEmbeddedClient);
       
       // Use the first connector (farcasterFrame) for auto-connection
       try {
@@ -190,12 +183,11 @@ export function WalletTab() {
       }
     } else {
       console.log("Auto-connection conditions not met:");
-      console.log("- Has context:", !!context?.user?.fid);
       console.log("- Is connected:", isConnected);
       console.log("- Has connectors:", connectors.length > 0);
-      console.log("- In Farcaster client:", isInFarcasterClient);
+      console.log("- In Farcaster client:", isInEmbeddedClient);
     }
-  }, [context?.user?.fid, isConnected, connectors, connect, context?.client]);
+  }, [isConnected, connectors, connect]);
 
   // --- Computed Values ---
   /**
@@ -283,7 +275,7 @@ export function WalletTab() {
       {/* Connection Controls */}
       <ConnectionControls
         isConnected={isConnected}
-        context={context}
+        hasEmbeddedClient={typeof window !== 'undefined'}
         connect={connect}
         connectors={connectors}
         disconnect={disconnect}

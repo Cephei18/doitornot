@@ -1,30 +1,36 @@
 import { ImageResponse } from "next/og";
-import { NextRequest } from "next/server";
-import { getNeynarUser } from "~/lib/neynar";
+import { APP_NAME, APP_DESCRIPTION } from "~/lib/constants";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const fid = searchParams.get('fid');
-
-  const user = fid ? await getNeynarUser(Number(fid)) : null;
-
+export async function GET() {
   return new ImageResponse(
     (
-      <div tw="flex h-full w-full flex-col justify-center items-center relative bg-primary">
-        {user?.pfp_url && (
-          <div tw="flex w-96 h-96 rounded-full overflow-hidden mb-8 border-8 border-white">
-            <img src={user.pfp_url} alt="Profile" tw="w-full h-full object-cover" />
-          </div>
-        )}
-        <h1 tw="text-8xl text-white">{user?.display_name ? `Hello from ${user.display_name ?? user.username}!` : 'Hello!'}</h1>
-        <p tw="text-5xl mt-4 text-white opacity-80">Powered by Neynar 🪐</p>
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          background:
+            "radial-gradient(circle at 20% 20%, #ff2fb5 0%, transparent 35%), radial-gradient(circle at 80% 20%, #326dff 0%, transparent 35%), #0b0b14",
+          color: "#ffffff",
+          padding: "60px",
+        }}
+      >
+        <div style={{ fontSize: 92, fontWeight: 900, letterSpacing: -2 }}>
+          {APP_NAME}
+        </div>
+        <div style={{ marginTop: 24, fontSize: 40, opacity: 0.9 }}>
+          {APP_DESCRIPTION}
+        </div>
       </div>
     ),
     {
       width: 1200,
-      height: 800,
+      height: 630,
     }
   );
 }

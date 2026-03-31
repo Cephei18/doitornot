@@ -84,16 +84,9 @@ export const APP_BUTTON_TEXT: string = 'Let\'s Decide';
 
 // --- Integration Configuration ---
 /**
- * Webhook URL for receiving events from Neynar.
- *
- * If Neynar API key and client ID are configured, uses the official
- * Neynar webhook endpoint. Otherwise, falls back to a local webhook
- * endpoint for development and testing.
+ * Webhook URL for receiving mini app events.
  */
-export const APP_WEBHOOK_URL: string =
-  process.env.NEYNAR_API_KEY && process.env.NEYNAR_CLIENT_ID
-    ? `https://api.neynar.com/f/app/${process.env.NEYNAR_CLIENT_ID}/event`
-    : `${APP_URL}/api/webhook`;
+export const APP_WEBHOOK_URL: string = `${APP_URL}/api/webhook`;
 
 /**
  * Flag to enable/disable wallet functionality.
@@ -107,9 +100,8 @@ export const USE_WALLET: boolean = false;
 /**
  * Flag to enable/disable analytics tracking.
  *
- * When true, usage analytics are collected and sent to Neynar.
+ * When true, usage analytics are collected.
  * When false, analytics collection is disabled.
- * Useful for privacy-conscious users or development environments.
  */
 export const ANALYTICS_ENABLED: boolean = false;
 

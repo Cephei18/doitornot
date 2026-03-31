@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { useMiniApp } from "@neynar/react";
 import { Bungee, Space_Grotesk } from "next/font/google";
 import { motion } from "framer-motion";
 import { AgentSelector } from "~/components/AgentSelector";
@@ -30,7 +29,6 @@ export interface AppProps {
 export default function App(
   { title }: AppProps = { title: "DoItOrNot" }
 ) {
-  const { isSDKLoaded, context } = useMiniApp();
   const [question, setQuestion] = useState("");
   const [selectedAgent, setSelectedAgent] = useState<AgentId>("toxic-bestie");
   const [isRevealing, setIsRevealing] = useState(false);
@@ -47,17 +45,6 @@ export default function App(
     const nextIndex = (currentIndex + 1) % AGENTS.length;
     return AGENTS[nextIndex].id;
   }, [selectedAgent]);
-
-  if (!isSDKLoaded) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-zinc-950">
-        <div className="text-center">
-          <div className="spinner h-8 w-8 mx-auto mb-4"></div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-zinc-300">Loading DoItOrNot...</p>
-        </div>
-      </div>
-    );
-  }
 
   const stopSuspenseTicker = () => {
     if (suspenseIntervalRef.current !== null) {
@@ -154,15 +141,7 @@ export default function App(
   };
 
   return (
-    <div
-      className={`${bodyFont.className} ${titleFont.variable}`}
-      style={{
-        paddingTop: context?.client.safeAreaInsets?.top ?? 0,
-        paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
-        paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
-        paddingRight: context?.client.safeAreaInsets?.right ?? 0,
-      }}
-    >
+    <div className={`${bodyFont.className} ${titleFont.variable}`}>
       <main className="relative min-h-screen overflow-hidden bg-zinc-950 px-4 py-6">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_15%_20%,rgba(236,72,153,0.35),transparent_30%),radial-gradient(circle_at_82%_15%,rgba(59,130,246,0.35),transparent_30%),radial-gradient(circle_at_55%_85%,rgba(168,85,247,0.24),transparent_34%)]" />
         <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 fill=%22none%22%3E%3Ccircle cx=%221%22 cy=%221%22 r=%221%22 fill=%22white%22/%3E%3C/svg%3E')" }} />
