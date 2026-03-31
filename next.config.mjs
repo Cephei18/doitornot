@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Use a custom output directory to avoid local .next file lock collisions.
-  distDir: "build",
+  // Keep defaults so Vercel picks up .next output automatically.
 };
 
 export default nextConfig;
