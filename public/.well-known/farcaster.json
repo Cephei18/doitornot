@@ -2,11 +2,11 @@
   "miniapp": {
     "version": "1",
     "name": "DoItOrNot",
-    "iconUrl": "https://doitornot.vercel.app/og.png",
-    "homeUrl": "https://doitornot.vercel.app",
-    "imageUrl": "https://doitornot.vercel.app/og.png",
+    "iconUrl": "https://doitornot-jdcy.vercel.app/og.png",
+    "homeUrl": "https://doitornot-jdcy.vercel.app",
+    "imageUrl": "https://doitornot-jdcy.vercel.app/og.png",
     "buttonTitle": "Start",
-    "splashImageUrl": "https://doitornot.vercel.app/og.png",
+    "splashImageUrl": "https://doitornot-jdcy.vercel.app/og.png",
     "splashBackgroundColor": "#000000"
   }
 }
