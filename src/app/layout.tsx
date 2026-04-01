@@ -1,8 +1,5 @@
-import type { Metadata } from 'next';
-
 import '~/app/globals.css';
 import { Providers } from '~/app/providers';
-import { APP_NAME, APP_DESCRIPTION } from '~/lib/constants';
 
 export const metadata = {
   title: "DoItOrNot",
@@ -19,10 +16,7 @@ export const metadata = {
     ],
   },
   other: {
-    "fc:frame": "vNext",
-    "fc:frame:image": "https://doitornot.vercel.app/og.png",
-    "fc:frame:button:1": "Open App",
-    "fc:frame:post_url": "https://doitornot.vercel.app",
+    "fc:frame": '{"version":"next","imageUrl":"https://doitornot.vercel.app/og.png","button":{"title":"Start","action":{"type":"launch_miniapp","name":"DoItOrNot","url":"https://doitornot.vercel.app"}}}',
   },
 };
 export default async function RootLayout({
