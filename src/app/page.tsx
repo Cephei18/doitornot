@@ -6,7 +6,11 @@ import App from "./app";
 
 export default function Home() {
   useEffect(() => {
-    sdk.actions.ready();
+    const init = async () => {
+      await sdk.actions.ready();
+    };
+
+    init();
   }, []);
 
   return (<App />);
