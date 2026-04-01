@@ -6,7 +6,7 @@
     "homeUrl": "https://doitornot-jdcy.vercel.app",
     "imageUrl": "https://doitornot-jdcy.vercel.app/og.png",
     "buttonTitle": "Start",
-    "splashImageUrl": "https://doitornot-jdcy.vercel.app/og.png",
+    "splashImageUrl": "https://doitornot-jdcy.vercel.app/splash.png",
     "splashBackgroundColor": "#000000"
   }
 }
